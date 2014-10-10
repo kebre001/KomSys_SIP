@@ -11,21 +11,21 @@ public class Sip {
     {
 	switch(event)
 	    {
-	    case ACK: currentState = currentState.idle(); break;
-	    case ERROR: currentState = currentState.invite(); break;
-	    case BYE: currentState = currentState.receive(); break;
+	    case ACK: currentState = currentState.ack(); break;
+	    case ERROR: currentState = currentState.error(); break;
+	    case BYE: currentState = currentState.bye(); break;
 	    case RECEIVE: currentState = currentState.receive(); break;
-	    case OK: currentState = currentState.ok();
-	    case BUSY: currentState = currentState.busy();
-	    case IDLE: currentState = currentState.idle();
-	    case INVITE: currentState = currentState.invite();
+	    case OK: currentState = currentState.ok(); break;
+	    case BUSY: currentState = currentState.busy(); break;
+	    case IDLE: currentState = currentState.idle(); break;
+	    case INVITE: currentState = currentState.invite(); break;
 	    }
     }
 
     private SipState currentState;
 
-    public void printState()
+    public String printState()
     {
-	currentState.printState();
+    	 return currentState.printState();
     }
 }

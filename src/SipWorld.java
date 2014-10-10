@@ -5,6 +5,7 @@ public class SipWorld {
 	public static void main(String[] args)
     {
 	Sip sip = new Sip();
+	@SuppressWarnings("resource")
 	Scanner scan = new Scanner(System.in);
 	int choice = 0;
 	do
@@ -31,7 +32,7 @@ public class SipWorld {
 		    case 6: sip.processNextEvent(Sip.SipEvent.BUSY); break;
 		    case 7: sip.processNextEvent(Sip.SipEvent.IDLE); break;
 		    case 8: sip.processNextEvent(Sip.SipEvent.INVITE); break;
-		    case 9: sip.printState(); break;
+		    case 9: System.out.println(sip.printState()); break;
 		    }
 		System.out.println("");
 	    }
