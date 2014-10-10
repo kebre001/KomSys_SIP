@@ -1,26 +1,50 @@
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 
 
-public class SipWorld {
+public class SipWorld extends Thread{
+	
 	public static void main(String[] args)
     {
-	Sip sip = new Sip();
-	@SuppressWarnings("resource")
-	Scanner scan = new Scanner(System.in);
+	Scanner scan = null;
+	
+	//Setup TCP listener 
+	Socket peerConnectionSocket=null;
+	PrintWriter out = null;
+	try {
+		ServerSocket ss = new ServerSocket(5060);
+		System.out.println("Waiting for connection...");
+		peerConnectionSocket = ss.accept();
+		System.out.println("Connected from:" + peerConnectionSocket.getRemoteSocketAddress() + ":" + peerConnectionSocket.getPort());
+		scan = new Scanner (peerConnectionSocket.getInputStream());
+		out = new PrintWriter(new OutputStreamWriter(peerConnectionSocket.getOutputStream()));
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	
+	
+	Sip sip = new Sip(); 
 	int choice = 0;
 	do
 	    {
-		System.out.println("SIP P2P Client");
-		System.out.println("1. Send Ack.");
-		System.out.println("2. Make Error");
-		System.out.println("3. Send Bye");
-		System.out.println("4. Send Receive");
-		System.out.println("5. Send OK?");
-		System.out.println("6. Send Busy");
-		System.out.println("7. Make Idle");
-		System.out.println("8. Invite");
-		System.out.println("9. Current state");
-		System.out.println("0. I wanna go home.");
+		//out.print is sendig it to connector
+		out.println("SIP P2P Client");
+		out.println("1. Send Ack.");
+		out.println("2. Make Error");
+		out.println("3. Send Bye");
+		out.println("4. Send Receive");
+		out.println("5. Send OK?");
+		out.println("6. Send Busy");
+		out.println("7. Make Idle");
+		out.println("8. Invite");
+		out.println("9. Current state");
+		out.println("0. I wanna go home.");
+		out.print(">");
+		out.flush();
 		choice = scan.nextInt();
 		switch(choice)
 		    {
@@ -32,9 +56,9 @@ public class SipWorld {
 		    case 6: sip.processNextEvent(Sip.SipEvent.BUSY); break;
 		    case 7: sip.processNextEvent(Sip.SipEvent.IDLE); break;
 		    case 8: sip.processNextEvent(Sip.SipEvent.INVITE); break;
-		    case 9: System.out.println(sip.printState()); break;
+		    case 9: out.println("\n>>> " + sip.printState() + " <<<"); break;
 		    }
-		System.out.println("");
+		out.println("");
 	    }
 	while(choice != 0);
     }

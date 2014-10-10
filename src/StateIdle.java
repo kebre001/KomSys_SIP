@@ -10,7 +10,7 @@ public class StateIdle extends SipState{
 	public SipState receive(){
 		return new StateTrying();
 	}
-	@Override
+	
 	public String printState(){
 		return "Idle";
 	}
