@@ -1,13 +1,13 @@
 
 public class Sip {
-	public enum DoorEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE};
+	public enum SipEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE};
 
     public Sip()
     {
 	currentState = new StateIdle();
     }
 
-    public void processNextEvent (DoorEvent event)
+    public void processNextEvent (SipEvent event)
     {
 	switch(event)
 	    {
