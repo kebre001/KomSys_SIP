@@ -72,6 +72,8 @@ class ClientHandler extends Thread{
 				out.println("");
 			    }
 			while(choice != 0);
+			out.println("bye");
+			return;
 		    }
 	  
 }
@@ -92,8 +94,6 @@ public class SipWorld extends Thread{
 			ClientHandler newThread = new ClientHandler(peerConnectionSocket, activeThreads);
 			activeThreads.add(newThread);
 			newThread.start();
-			//scan = new Scanner (peerConnectionSocket.getInputStream());
-			//out = new PrintWriter(new OutputStreamWriter(peerConnectionSocket.getOutputStream()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
