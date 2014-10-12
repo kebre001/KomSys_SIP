@@ -41,31 +41,45 @@ class ClientHandler extends Thread{
 			e.printStackTrace();
 		}
 			int choice = 0;
-			if(scan.nextLine().equals("send invite")){
-				
-				client.processNextEvent(Sip.SipEvent.INVITE);
-				out.println(client.printState());
-				
-				server.processNextEvent(Sip.SipEvent.RECEIVE);
-				System.out.println(server.printState());
-				
-				server.processNextEvent(Sip.SipEvent.TRYSUCCESS);
-				System.out.println(server.printState());
-				
-				for(;;){
-					System.out.print("Say OK: ");
-					Scanner servScan = new Scanner(System.in);
-					if(servScan.nextLine().equals("ok")){
-						server.processNextEvent(Sip.SipEvent.OK);
-						System.out.println(server.printState());
-						break;
+			System.out.println("Before");
+			String cmd = "null";
+			while(!cmd.equals("exit")){
+				cmd = scan.nextLine();
+				System.out.println("After");
+				if(cmd.equals("send invite")){
+					
+					client.processNextEvent(Sip.SipEvent.INVITE);
+					out.println(client.printState());
+					
+					server.processNextEvent(Sip.SipEvent.RECEIVE);
+					System.out.println(server.printState());
+					
+					server.processNextEvent(Sip.SipEvent.TRYSUCCESS);
+					System.out.println(server.printState());
+					
+					for(;;){
+						System.out.print("Pick up the phone[ok]: ");
+						Scanner servScan = new Scanner(System.in);
+						if(servScan.nextLine().equals("ok")){		//Lyfter pa luren
+							server.processNextEvent(Sip.SipEvent.OK);
+							System.out.println(server.printState());
+							break;
+						}
 					}
+					client.processNextEvent(Sip.SipEvent.ACK);
+					System.out.println(client.printState());
+					cmd = "null";
+					
+				}else if(cmd.equals("bye")){
+					client.processNextEvent(Sip.SipEvent.BYE);
+					out.println(client.printState());
+					
+					server.processNextEvent(Sip.SipEvent.BYE);
+					System.out.println(server.printState());
+					cmd = "null";
 				}
-				client.processNextEvent(Sip.SipEvent.ACK);
-				System.out.println(client.printState());
-				
 			}
-			do
+			/*do
 			    {
 				//out.print is sendig it to connector
 				out.println(client.printState());
@@ -85,7 +99,7 @@ class ClientHandler extends Thread{
 				choice = scan.nextInt();
 				switch(choice)
 				    {
-					/*case 1: sip.processNextEvent(Sip.SipEvent.ACK); break;
+					case 1: sip.processNextEvent(Sip.SipEvent.ACK); break;
 					case 2: sip.processNextEvent(Sip.SipEvent.ERROR); break;
 					case 3: sip.processNextEvent(Sip.SipEvent.BYE); break;
 					case 4: sip.processNextEvent(Sip.SipEvent.RECEIVE); break;
@@ -94,13 +108,13 @@ class ClientHandler extends Thread{
 				    case 7: sip.processNextEvent(Sip.SipEvent.IDLE); break;
 				    case 8: sip.processNextEvent(Sip.SipEvent.INVITE); break;
 				    case 9: out.println("\n>>> " + sip.printState() + " <<<"); break;
-				    */
+				    
 				    }
 				out.println("");
 			    }
 			while(choice != 0);
 			out.println("bye");
-			return;
+			return;*/
 		    }
 	  
 }
