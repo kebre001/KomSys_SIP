@@ -32,7 +32,8 @@ class ClientHandler extends Thread{
 		  }
 	  
 	  public void run(){
-		  Sip sip = new Sip(); 
+		  Sip client = new Sip();
+		  Sip server = new Sip();
 		  try {
 			scan = new Scanner (incoming.getInputStream());
 		} catch (IOException e) {
@@ -40,9 +41,34 @@ class ClientHandler extends Thread{
 			e.printStackTrace();
 		}
 			int choice = 0;
+			if(scan.nextLine().equals("send invite")){
+				
+				client.processNextEvent(Sip.SipEvent.INVITE);
+				out.println(client.printState());
+				
+				server.processNextEvent(Sip.SipEvent.RECEIVE);
+				System.out.println(server.printState());
+				
+				server.processNextEvent(Sip.SipEvent.TRYSUCCESS);
+				System.out.println(server.printState());
+				
+				for(;;){
+					System.out.print("Say OK: ");
+					Scanner servScan = new Scanner(System.in);
+					if(servScan.nextLine().equals("ok")){
+						server.processNextEvent(Sip.SipEvent.OK);
+						System.out.println(server.printState());
+						break;
+					}
+				}
+				client.processNextEvent(Sip.SipEvent.ACK);
+				System.out.println(client.printState());
+				
+			}
 			do
 			    {
 				//out.print is sendig it to connector
+				out.println(client.printState());
 				out.println("SIP P2P Client");
 				out.println("1. Send Ack.");
 				out.println("2. Make Error");
@@ -59,7 +85,7 @@ class ClientHandler extends Thread{
 				choice = scan.nextInt();
 				switch(choice)
 				    {
-					case 1: sip.processNextEvent(Sip.SipEvent.ACK); break;
+					/*case 1: sip.processNextEvent(Sip.SipEvent.ACK); break;
 					case 2: sip.processNextEvent(Sip.SipEvent.ERROR); break;
 					case 3: sip.processNextEvent(Sip.SipEvent.BYE); break;
 					case 4: sip.processNextEvent(Sip.SipEvent.RECEIVE); break;
@@ -68,6 +94,7 @@ class ClientHandler extends Thread{
 				    case 7: sip.processNextEvent(Sip.SipEvent.IDLE); break;
 				    case 8: sip.processNextEvent(Sip.SipEvent.INVITE); break;
 				    case 9: out.println("\n>>> " + sip.printState() + " <<<"); break;
+				    */
 				    }
 				out.println("");
 			    }
@@ -78,25 +105,50 @@ class ClientHandler extends Thread{
 	  
 }
 
+class UserInput implements Runnable{
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+class SysoInput implements Runnable{
+	
+	BufferedReader input = null;
+	public SysoInput(BufferedReader input){
+		this.input=input;
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}
+
 public class SipWorld extends Thread{
 	static List<ClientHandler> activeThreads;
-	
-	public SipWorld(){
+
+	public static void main(String[] args)
+    {
 		//Setup TCP listener 
-		Socket peerConnectionSocket=null;
-		activeThreads = Collections.synchronizedList(new ArrayList<ClientHandler>());
-		try {
-			ServerSocket ss = new ServerSocket(5060);
-			for(;;){
-			System.out.println("Waiting for connection...");
-			peerConnectionSocket = ss.accept();
-			System.out.println("Connected from:" + peerConnectionSocket.toString());
-			ClientHandler newThread = new ClientHandler(peerConnectionSocket, activeThreads);
-			activeThreads.add(newThread);
-			newThread.start();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+				Socket peerConnectionSocket=null;
+				activeThreads = Collections.synchronizedList(new ArrayList<ClientHandler>());
+				try {
+					ServerSocket ss = new ServerSocket(5060);
+					for(;;){
+					System.out.println("Waiting for connection...");
+					peerConnectionSocket = ss.accept();
+					System.out.println("Connected from:" + peerConnectionSocket.toString());
+					ClientHandler newThread = new ClientHandler(peerConnectionSocket, activeThreads);
+					activeThreads.add(newThread);
+					newThread.start();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+    }
 }

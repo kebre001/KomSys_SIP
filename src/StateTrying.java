@@ -4,6 +4,9 @@ public class StateTrying extends SipState{
 		
 	}
 	
+	public SipState trySuccess(){
+		return new StateRinging();
+	}
 	public SipState error(){
 		return new StateDisconnected();
 	}
