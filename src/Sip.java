@@ -1,10 +1,13 @@
 
 public class Sip {
-	public enum SipEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE, TRYSUCCESS};
-
+	public enum SipEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE, TRYSUCCESS, TRYRING};
+	private SipState currentState = null;
+	
     public Sip()
     {
-	currentState = new StateIdle();
+    	//System.out.println("[SIP] Rad 8");
+    	currentState = new StateIdle(this, false);
+    	//System.out.println("[SIP] Rad 10");
     }
 
     public void processNextEvent (SipEvent event)
@@ -20,13 +23,16 @@ public class Sip {
 	    case IDLE: currentState = currentState.idle(); break;
 	    case INVITE: currentState = currentState.invite(); break;
 	    case TRYSUCCESS: currentState = currentState.trySuccess(); break;
+	    case TRYRING: currentState = currentState.tryRing(); break;
+	  //  case INIT: currentState = currentState.init(); break;
 	    }
     }
-
-    private SipState currentState;
 
     public String printState()
     {
     	 return currentState.printState();
+    }
+    public void setState(SipState s){
+    	this.currentState = s;
     }
 }

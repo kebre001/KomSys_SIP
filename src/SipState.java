@@ -27,8 +27,12 @@ public abstract class SipState {
 	public SipState trySuccess(){
 		return this;
 	}
-
+	public SipState tryRing() {
+		return this;
+	}
 	public String printState() {
 		return null;
 	}
+	
+
 }
