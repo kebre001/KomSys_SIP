@@ -7,6 +7,9 @@ public class SipData {
 	private int port;
 	public Socket incoming;
 	
+	private int portUdp;
+	private AudioStreamUDP asu;
+	
 	public SipData(InetAddress inetAddress, int port){
 		this.ip=inetAddress; this.port=port;
 		
@@ -32,5 +35,17 @@ public class SipData {
 	}
 	public Socket getTcp(){
 		return incoming;
+	}
+	public void setUdpPort(int port){
+		this.portUdp = port;
+	}
+	public int getUdpPort(){
+		return portUdp;
+	}
+	public void setAudioStreamUDP(AudioStreamUDP asu){
+		this.asu = asu;
+	}
+	public AudioStreamUDP getAudioStreamUDP(){
+		return this.asu;
 	}
 }

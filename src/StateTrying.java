@@ -24,14 +24,14 @@ public class StateTrying extends SipState{
 			//System.out.println("What's the remote port number?");
 			//reply = scan.nextLine().trim();
 			//int remotePort = Integer.parseInt(reply);
-			System.out.println("Trying... Thread: "+Thread.currentThread().getId());
+			//System.out.println("Trying... Thread: "+Thread.currentThread().getId());
 			//int remotePort = 5060;
 			int remotePort = SipWorld.sp.getPort();
 			//System.out.println("Port SipWorld: "+SipWorld.sp.getPort());
 			//InetAddress address = InetAddress.getByName(host); //slang in argument
 			InetAddress address = SipWorld.sp.getIp(); //slang in argument
 			System.out.println(address + ", " + remotePort);
-			stream.connectTo(address, remotePort);
+			//stream.connectTo(address, remotePort);
 			
 			
 			//sip.setState(Sip.SipEvent.TRYRING);
@@ -47,7 +47,7 @@ public class StateTrying extends SipState{
 		}
 	}
 	public SipState tryRing(){
-		return new StateRinging(stream, sip);
+		return new StateRinging(sip);
 	}
 	public SipState error(){
 		return new StateDisconnected(sip);

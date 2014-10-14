@@ -14,17 +14,17 @@ public class StateIdle extends SipState{
 	
 	public StateIdle(Sip sip, boolean runClient){
 		//scan = new Scanner(System.in);
-		System.out.println("[IDLE] Rad 16");
+		//System.out.println("[IDLE] Rad 16");
 		this.sip=null;
 		this.sip= sip;
 		//run client
 		
 		//run client
-		System.out.println("[IDLE] Rad 18");
+		//System.out.println("[IDLE] Rad 18");
 		this.sip.setState(this);
 		this.sip=sip;
 		this.sip.setState(this);
-		System.out.println("[IDLE] Rad 20");
+		//System.out.println("[IDLE] Rad 20");
 		//this.sip=new Sip();
 		
 		if(runClient){
@@ -40,9 +40,9 @@ public class StateIdle extends SipState{
 	public SipState invite(){
 		Socket peerSocket = null; 
 		
-		System.out.println("Idle... Thread: "+Thread.currentThread().getId());
+		//System.out.println("Idle... Thread: "+Thread.currentThread().getId());
 		
-		System.out.println("Connecting to client.");
+		//System.out.println("Connecting to client.");
 		System.out.println("Enter ip and Port:");
 		String newData = scan.nextLine();
 		//newData = scan.nextLine();

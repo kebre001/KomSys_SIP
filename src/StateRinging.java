@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -9,12 +10,15 @@ public class StateRinging extends SipState{
 	protected BufferedReader in;
 	protected PrintWriter out;
 	Sip sip=null;
-	public StateRinging(AudioStreamUDP stream, Sip sip){
+	public AudioStreamUDP stream;
+	public StateRinging(Sip sip){
 		this.sip=sip;
 		sip.setState(this);
-		System.out.println(stream);
-		System.out.println("Ringing... Thread: "+Thread.currentThread().getId());
-		System.out.println("Ring ring ring, Port: "+stream.getLocalPort());
+		//System.out.println(stream);
+		//System.out.println("Ringing... Thread: "+Thread.currentThread().getId());
+		stream = SipWorld.sp.getAudioStreamUDP();
+		
+		//System.out.println("Ring ring ring, Port: "+stream.getLocalPort());
 		Socket tcp = SipWorld.sp.getTcp();
 		
 		try {
@@ -26,11 +30,33 @@ public class StateRinging extends SipState{
 			System.out.println("Error1: " + e);
 		}
 		
-		out.print("OK "+stream.getLocalPort());
+		
+		
+		//System.out.println("Sending OK to other peer ");
+		
+		out.println("OK "+stream.getLocalPort());
 		out.flush();
 		
-		this.sip.processNextEvent(Sip.SipEvent.OK);
+		SipWorld.sp.setAudioStreamUDP(stream);
 		
+		// ###### TA EMOT ACK ######
+		String received = null;
+		try {
+			received = in.readLine().trim();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// ####### SLUT ACK ########
+		if(received.startsWith("ACK")){
+			//System.out.println("Received ACK");
+			//System.out.println("RemoteUdpPort: " + Integer.parseInt(received.substring(4)));
+			SipWorld.sp.setUdpPort(Integer.parseInt(received.substring(4)));
+			this.sip.processNextEvent(Sip.SipEvent.OK);
+		}else{
+			System.out.println("No ack received");
+			//this.sip.processNextEvent(Sip.SipEvent.ERROR);
+		}
 	}
 	public SipState ok(){
 		return new StateConnected(sip);
