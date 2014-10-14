@@ -11,6 +11,7 @@ public class StateConnected extends SipState{
 	Sip sip = null;
 	public BufferedReader in;
 	public PrintWriter out;
+	AudioStreamUDP audio;
 	
 	public StateConnected(Sip sip){
 		boolean bye = false;
@@ -22,7 +23,13 @@ public class StateConnected extends SipState{
 		//System.out.println("Connected !!!!  :"+sip.printState());
 		//System.out.println("[CONNECTED] setThis");
 		
-		AudioStreamUDP audio = SipWorld.sp.getAudioStreamUDP();
+		try {
+			audio =  new AudioStreamUDP();
+		//	audio = SipWorld.sp.getAudioStreamUDP();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 	//	int audioPort = SipWorld.sp.getUdpPort();
 		
 		Socket tcp = SipWorld.sp.getTcp();
@@ -68,20 +75,26 @@ public class StateConnected extends SipState{
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}/*
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 			if(cmd == null){
 				System.out.println("Connection is dead");
+				try {
+					Thread.sleep(250);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//bye = true;
-			}else{System.out.println("Connection is alive");
+			}/* else{System.out.println("Connection is alive");
 			System.out.println("inline received: "+cmd);
 			
-			}
+			}*/
 		}
 		this.sip.processNextEvent(Sip.SipEvent.BYE);
 		//this.sip.processNextEvent(Sip.SipEvent.OK);

@@ -10,7 +10,7 @@ import java.util.List;
 public class SipWorld_Server implements Runnable {
 	List<ClientHandler> activeThreads;
 	//private SIPHandler sipHandler = null;
-	private int serverPort = 5060;
+	public int serverPort = 5061;
 	private ServerSocket serverSocket = null;
 	private Socket peerSocket;
 	private DataOutputStream outToClient = null;
@@ -20,6 +20,7 @@ public class SipWorld_Server implements Runnable {
 		this.newState=stateHandler;
 	}
 
+	
 	@Override
 	public void run() {
 		// Setup TCP listener
@@ -27,7 +28,7 @@ public class SipWorld_Server implements Runnable {
 		activeThreads = Collections.synchronizedList(new ArrayList<ClientHandler>());
 
 		try {
-			serverSocket = new ServerSocket(5061);
+			serverSocket = new ServerSocket(serverPort);
 			System.out.println("[SERVER]Waiting for connection on: " + serverSocket.getLocalPort());
 			for (;;) {
 				peerSocket = serverSocket.accept();

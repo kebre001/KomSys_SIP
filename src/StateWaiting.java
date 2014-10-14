@@ -40,7 +40,7 @@ public class StateWaiting extends SipState {
 					//System.out.println("[WAITING] Sending ACK");
 
 					System.out.println("udpPort Received: " + received.substring(3));
-					//System.out.println(received);
+					System.out.println(received);
 					// Puts the remote UDP port in SipData
 					SipWorld.sp.setUdpPort(Integer.parseInt(received.substring(3)));
 					
