@@ -30,7 +30,7 @@ public class StateConnected extends SipState{
 		}catch (Exception e){
 			System.out.println("Error1: " + e);
 		}
-		System.out.println("TCP Connection: "+tcp.getInetAddress()+ " Port: "+ tcp.getPort());
+		//System.out.println("TCP Connection: "+tcp.getInetAddress()+ " Port: "+ tcp.getPort());
 		// ######### STARTA CONNECTION
 		
 		System.out.println("AudioStream: " + SipWorld.sp.getIp() + ":" + SipWorld.sp.getUdpPort());
@@ -41,7 +41,7 @@ public class StateConnected extends SipState{
 		}
 		
 		
-		audio.startStreaming();
+		//audio.startStreaming();
 		audio.startStreaming();
 		
 		// ######## SLUT CONNECTION

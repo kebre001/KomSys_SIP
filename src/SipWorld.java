@@ -61,6 +61,7 @@ public class SipWorld extends Thread {
 	//static SipHandler SH;
 	static Sip sip;
 	static runClient client;
+	static Scanner scan;
 	
 
 	public static void main(String[] args) {
@@ -80,8 +81,41 @@ public class SipWorld extends Thread {
 		serverT.start();
 		
 		// ############## KLIENT ###################
-		client = new runClient(sip);
-		client.run();
+
+
+		scan = new Scanner(System.in);
+		while(true){
+		int temp;
+		do{
+		//System.out.println(">>> " + sip.printState() + " <<<");
+		System.out.println("1. Send invite");
+		System.out.println("2. Answer");
+		System.out.println("3. State");
+		System.out.println("4. Bye");
+
+		temp = scan.nextInt();
+
+		switch(temp){
+
+			case 1: 
+				client =null;
+				client = new runClient(sip);
+				Thread clientT = new Thread(client);
+
+				System.out.println("Enter ip and Port:");
+				scan.nextLine();
+				String newData = scan.nextLine();
+				sp.scanned=newData;
+				clientT.start();
+				break;
+			case 2: sip.processNextEvent(Sip.SipEvent.RECEIVE); break;
+			case 3: System.out.println(sip.printState()); System.out.println("Statecheck... Thread: "+Thread.currentThread().getId());break;
+			case 4: sip.processNextEvent(Sip.SipEvent.BYE);break;
+		}
+		}while(!(temp == 0));
+		scan.close();
+
+		}
 		// ############## SLUT KLIENT ##############
 		
 		

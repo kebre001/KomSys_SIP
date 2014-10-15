@@ -38,13 +38,14 @@ public class StateIdle extends SipState{
 		sip.setState(this);
 		//System.out.println("[IDLE] Rad 20");
 		//this.sip=new Sip();
-		
+		/*
 		if(runClient){
 			SipWorld.sp.goIdle=false;
 			client =null;
 			client = new runClient(sip);
 			client.run();	
 		}
+		*/
 	}
 	
 	
@@ -54,8 +55,8 @@ public class StateIdle extends SipState{
 		//System.out.println("Idle... Thread: "+Thread.currentThread().getId());
 		
 		//System.out.println("Connecting to client.");
-		System.out.println("Enter ip and Port:");
-		String newData = scan.nextLine();
+		//System.out.println("Enter ip and Port:");
+		String newData = SipWorld.sp.scanned;
 		//newData = scan.nextLine();
 		
 		
