@@ -44,7 +44,7 @@ public class StateWaiting extends SipState {
 					// Puts the remote UDP port in SipData
 					SipWorld.sp.setUdpPort(Integer.parseInt(received.substring(3)));
 					
-				//	int remoteUdpPort = Integer.parseInt(received.substring(3));
+					//	int remoteUdpPort = Integer.parseInt(received.substring(3));
 					//########## Audio Stream setup ###########
 					AudioStreamUDP stream = null;
 					int localUdpPort = -1;

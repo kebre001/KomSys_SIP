@@ -19,6 +19,8 @@ public class StateTrying extends SipState{
 			stream = new AudioStreamUDP();
 			int localPort = stream.getLocalPort();
 			System.out.println("Bound to local port = " + localPort);
+			SipWorld.sp.setAudioStreamUDP(stream);
+
 			
 			// Set the address and port for the callee.
 			//System.out.println("What's the remote port number?");

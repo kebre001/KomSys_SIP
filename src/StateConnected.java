@@ -23,13 +23,26 @@ public class StateConnected extends SipState{
 		//System.out.println("Connected !!!!  :"+sip.printState());
 		//System.out.println("[CONNECTED] setThis");
 		
+		// ########## PRINT SIPWORLD
+		System.out.println("#############################################");
+		System.out.println("GetPort: " + SipWorld.sp.getPort());
+		System.out.println("GetUDPPort: " + SipWorld.sp.getUdpPort());
+		System.out.println("GetAudioPort: " + SipWorld.sp.getAudioStreamUDP());
+		System.out.println("GetIP: " + SipWorld.sp.getIp());
+		System.out.println("GetTCP: " + SipWorld.sp.getTcp());
+		System.out.println("#############################################");
+		// ########## SLUT PRINT
+		
+		audio = SipWorld.sp.getAudioStreamUDP();
+		/*
 		try {
-			audio =  new AudioStreamUDP();
-		//	audio = SipWorld.sp.getAudioStreamUDP();
+			//audio =  new AudioStreamUDP();
+			
+		
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 	//	int audioPort = SipWorld.sp.getUdpPort();
 		
 		Socket tcp = SipWorld.sp.getTcp();
@@ -51,6 +64,8 @@ public class StateConnected extends SipState{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
+		
 		audio.startStreaming();
 		
 		// ######## SLUT CONNECTION
@@ -68,8 +83,11 @@ public class StateConnected extends SipState{
 		while(!bye){
 			out.println("alive");
 			out.flush();
+			//out.print("alive");
+			//out.flush();
 			
 			//System.out.println("Connection is alive");
+			
 			try {
 				cmd = in.readLine();
 			} catch (IOException e) {
@@ -77,24 +95,23 @@ public class StateConnected extends SipState{
 				e.printStackTrace();
 			}/*
 			try {
-				Thread.sleep(200);
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
 			if(cmd == null){
-				System.out.println("Connection is dead");
-				try {
-					Thread.sleep(250);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				//System.out.println("Connection is dead");
 				//bye = true;
-			}/* else{System.out.println("Connection is alive");
-			System.out.println("inline received: "+cmd);
-			
-			}*/
+			} else{System.out.println("Connection is alive");
+			//System.out.println("inline received: "+cmd);
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}
 		}
 		this.sip.processNextEvent(Sip.SipEvent.BYE);
 		//this.sip.processNextEvent(Sip.SipEvent.OK);

@@ -40,12 +40,15 @@ public class SipData {
 		this.portUdp = port;
 	}
 	public int getUdpPort(){
+		System.out.println("From Data, getUdpPort: "+this.portUdp);
 		return portUdp;
 	}
 	public void setAudioStreamUDP(AudioStreamUDP asu){
+		System.out.println("From Data, setAudioStreamUDP: "+asu);
 		this.asu = asu;
 	}
 	public AudioStreamUDP getAudioStreamUDP(){
+		System.out.println("From Data, getAudioStreamUDP: "+this.asu);
 		return this.asu;
 	}
 }
