@@ -19,106 +19,76 @@ public class StateConnected extends SipState{
 		sip.setState(this);
 		this.sip=sip;
 		sip.setState(this);
-		//System.out.println("Connected... Thread: "+Thread.currentThread().getId());
-		//System.out.println("Connected !!!!  :"+sip.printState());
-		//System.out.println("[CONNECTED] setThis");
-		
-		// ########## PRINT SIPWORLD
-		System.out.println("#############################################");
-		System.out.println("GetPort: " + SipWorld.sp.getPort());
-		System.out.println("GetUDPPort: " + SipWorld.sp.getUdpPort());
-		System.out.println("GetAudioPort: " + SipWorld.sp.getAudioStreamUDP());
-		System.out.println("GetIP: " + SipWorld.sp.getIp());
-		System.out.println("GetTCP: " + SipWorld.sp.getTcp());
-		System.out.println("#############################################");
-		// ########## SLUT PRINT
 		
 		audio = SipWorld.sp.getAudioStreamUDP();
-		/*
-		try {
-			//audio =  new AudioStreamUDP();
-			
-		
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}*/
-	//	int audioPort = SipWorld.sp.getUdpPort();
 		
 		Socket tcp = SipWorld.sp.getTcp();
-		//System.out.println("TCP Connection: "+tcp.getInetAddress());
+		
 		try {
-			
-				in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
-				out = new PrintWriter(new OutputStreamWriter(tcp.getOutputStream()));
-			
-		} catch (Exception e) {
+			in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
+			out = new PrintWriter(new OutputStreamWriter(tcp.getOutputStream()));
+		}catch (Exception e){
 			System.out.println("Error1: " + e);
 		}
 		System.out.println("TCP Connection: "+tcp.getInetAddress()+ " Port: "+ tcp.getPort());
 		// ######### STARTA CONNECTION
+		
 		System.out.println("AudioStream: " + SipWorld.sp.getIp() + ":" + SipWorld.sp.getUdpPort());
 		try {
 			audio.connectTo(SipWorld.sp.getIp(), SipWorld.sp.getUdpPort());
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		
 		
 		audio.startStreaming();
+		audio.startStreaming();
 		
 		// ######## SLUT CONNECTION
 		String cmd = null; 
 		// KEEP ALIVE
-		/*
+		
 		try {
-			tcp.setSoTimeout(2000);
+			tcp.setSoTimeout(1000);
 		} catch (SocketException e1) {
-			System.out.println("Connection is dead");
+			System.out.println("Connection is dead, bye");
 			e1.printStackTrace();
 			bye=true;
-		}*/
+		}
 		
 		while(!bye){
+			
 			out.println("alive");
 			out.flush();
-			//out.print("alive");
-			//out.flush();
-			
-			//System.out.println("Connection is alive");
 			
 			try {
 				cmd = in.readLine();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}/*
-			try {
-				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			if(cmd == null){
-				//System.out.println("Connection is dead");
-				//bye = true;
-			} else{System.out.println("Connection is alive");
-			//System.out.println("inline received: "+cmd);
-			try {
-				Thread.sleep(200);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Line could not be read, exiting");
+				System.out.println("Connection is dead");
+				bye=true;
 			}
+			if(!SipWorld.sip.printState().equalsIgnoreCase("connected")){
+				bye = true;
+				System.out.println("Connection is dead");
+			} 
+			if(cmd == null){
+				bye = true;
+				System.out.println("Connection is dead");
+			} 
+			else{//System.out.println("Connection is alive");
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		this.sip.processNextEvent(Sip.SipEvent.BYE);
-		//this.sip.processNextEvent(Sip.SipEvent.OK);
+		
 	}
 	
 	public SipState bye(){
-		System.out.println("[CONNECTED] Haning up");
 		return new StateDisconnected(sip);
 	}
 	

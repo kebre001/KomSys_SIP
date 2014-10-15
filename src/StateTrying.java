@@ -36,6 +36,7 @@ public class StateTrying extends SipState{
 			System.out.println(address + ", " + remotePort);
 			//stream.connectTo(address, remotePort);
 			SipWorld.sp.setUdpPort(localPort);
+			//SipWorld.sp.setUdpPort(12346);
 			
 			//sip.setState(Sip.SipEvent.TRYRING);
 			this.sip.processNextEvent(Sip.SipEvent.TRYRING);

@@ -4,6 +4,11 @@ public class StateDisconnected extends SipState{
 	public StateDisconnected(Sip sip){
 		this.sip=sip;
 		sip.setState(this);
+		
+		SipWorld.sp.getAudioStreamUDP().close();
+		
+		SipWorld.sp.goIdle = true;
+		
 		System.out.println("Kor idle");
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}

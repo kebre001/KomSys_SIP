@@ -51,7 +51,8 @@ public class StateRinging extends SipState{
 		if(received.startsWith("ACK")){
 			//System.out.println("Received ACK");
 			//System.out.println("RemoteUdpPort: " + Integer.parseInt(received.substring(4)));
-			SipWorld.sp.setUdpPort(Integer.parseInt(received.substring(4)));
+			SipWorld.sp.setUdpPort(Integer.parseInt(received.substring(4).trim()));
+			//SipWorld.sp.setUdpPort(1337);
 			SipWorld.sp.setIp(tcp.getInetAddress());
 			this.sip.processNextEvent(Sip.SipEvent.OK);
 		}else{

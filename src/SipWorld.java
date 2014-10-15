@@ -47,6 +47,10 @@ class ClientHandler extends Thread {
 		
 		sip.processNextEvent(Sip.SipEvent.RECEIVE);
 		
+		//Denna kod sker nar mottagen kod har slutforts
+		
+		sip.setState(new StateIdle(sip, false));
+		
 	}
 
 

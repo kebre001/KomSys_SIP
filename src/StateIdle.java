@@ -15,27 +15,38 @@ public class StateIdle extends SipState{
 	public StateIdle(Sip sip, boolean runClient){
 		//scan = new Scanner(System.in);
 		//System.out.println("[IDLE] Rad 16");
-		this.sip=null;
-		this.sip= sip;
-		//run client
 		
-		//run client
-		//System.out.println("[IDLE] Rad 18");
-		this.sip.setState(this);
-		this.sip=sip;
-		this.sip.setState(this);
+		if(SipWorld.sp.goIdle){
+			System.out.println("go if");
+			this.sip=null;
+			this.sip= sip;
+			//Sip sip2 = new Sip();
+			//sip=sip2;
+			
+			//this.sip.setState(this);
+			runClient=true;
+			//SipWorld.sp.goIdle=false;
+		}else{
+			this.sip=null;
+			this.sip= sip;
+			System.out.println("did not go if");
+			
+		}
+		
+		
+		
+		sip.setState(this);
 		//System.out.println("[IDLE] Rad 20");
 		//this.sip=new Sip();
 		
 		if(runClient){
+			SipWorld.sp.goIdle=false;
 			client =null;
 			client = new runClient(sip);
-			client.run();
+			client.run();	
 		}
-		//init();		
-		
-		//sip.processNextEvent(Sip.SipEvent.INIT);
 	}
+	
 	
 	public SipState invite(){
 		Socket peerSocket = null; 
@@ -71,6 +82,10 @@ public class StateIdle extends SipState{
 	public SipState receive(){
 		//System.out.println("[IDLE] Rad 68");
 		return new StateTrying(sip);
+	}
+	
+	public SipState fIdle(){
+		return this;
 	}
 	
 	public String printState(){

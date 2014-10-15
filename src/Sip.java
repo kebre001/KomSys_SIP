@@ -1,6 +1,6 @@
 
 public class Sip {
-	public enum SipEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE, TRYSUCCESS, TRYRING};
+	public enum SipEvent { ACK, ERROR, BYE, RECEIVE, OK, BUSY, IDLE, INVITE, TRYSUCCESS, TRYRING, FIDLE};
 	private SipState currentState = null;
 	
     public Sip()
@@ -24,6 +24,7 @@ public class Sip {
 	    case INVITE: currentState = currentState.invite(); break;
 	    case TRYSUCCESS: currentState = currentState.trySuccess(); break;
 	    case TRYRING: currentState = currentState.tryRing(); break;
+	    case FIDLE: currentState = currentState.fIdle(); break;
 	  //  case INIT: currentState = currentState.init(); break;
 	    }
     }

@@ -33,6 +33,9 @@ public abstract class SipState {
 	public String printState() {
 		return null;
 	}
+	public SipState fIdle() {
+		return this;
+	}
 	
 
 }

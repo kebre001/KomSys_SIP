@@ -4,7 +4,8 @@ public class runClient{
 	Sip sip=null;
 	Scanner scan = new Scanner(System.in);
 	public runClient(Sip sip){
-		
+		System.out.println("'runClient constructor'");
+		this.sip=null;
 		this.sip=sip;
 		/*
 		boolean tmp=true;
@@ -18,7 +19,7 @@ public class runClient{
 	
 	public void run(){
 		//clear();
-		System.out.println("Starting Client");
+		System.out.println("'run'");
 		
 		int temp;
 		do{

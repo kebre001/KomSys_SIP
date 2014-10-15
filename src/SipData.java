@@ -6,6 +6,7 @@ public class SipData {
 	private InetAddress ip;
 	private int port;
 	public Socket incoming;
+	public boolean goIdle;
 	
 	private int portUdp;
 	private AudioStreamUDP asu;
