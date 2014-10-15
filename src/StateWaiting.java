@@ -61,6 +61,9 @@ public class StateWaiting extends SipState {
 						SipWorld.sp.setIp(tcp.getInetAddress());
 						SipWorld.sp.setTcp(tcp);
 					}
+					finally {
+						//if(stream != null) stream.close();
+					}
 					//########## Slut Audio Stream ############
 					
 					// SKICKAR ACK
