@@ -32,6 +32,7 @@ public class StateIdle extends SipState{
 			System.out.println("did not go if");
 			
 		}
+
 		
 		
 		
@@ -44,8 +45,8 @@ public class StateIdle extends SipState{
 			client =null;
 			client = new runClient(sip);
 			client.run();	
-		}
-		*/
+		}*/
+		
 	}
 	
 	

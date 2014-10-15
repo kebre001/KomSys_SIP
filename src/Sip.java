@@ -7,6 +7,7 @@ public class Sip {
     {
     	//System.out.println("[SIP] Rad 8");
     	currentState = new StateIdle(this, false);
+    	SipWorld.sp.idle=currentState;
     	//System.out.println("[SIP] Rad 10");
     }
 

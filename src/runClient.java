@@ -23,6 +23,10 @@ public class runClient implements Runnable{
 		
 		sip.processNextEvent(Sip.SipEvent.INVITE);
 		
+		//This is the point we return from a connection
+		
+		sip.setState(SipWorld.sp.idle);
+		
 	}
 	
 	public void clear(){

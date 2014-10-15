@@ -9,11 +9,12 @@ public class StateDisconnected extends SipState{
 		
 		SipWorld.sp.goIdle = true;
 		
-		System.out.println("Kor idle");
+		System.out.println("Dissconnecting");
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}
 	public SipState idle(){
-		return new StateIdle(sip, true);
+		System.out.println("Running idle");
+		return new StateIdle(new Sip(), false);
 	}
 	
 	public String printState(){

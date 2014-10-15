@@ -7,6 +7,7 @@ public class SipData {
 	private int port;
 	public Socket incoming;
 	public boolean goIdle;
+	public SipState idle;
 	public String scanned;
 	
 	private int portUdp;

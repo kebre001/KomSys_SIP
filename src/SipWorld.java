@@ -44,7 +44,7 @@ class ClientHandler extends Thread {
 		
 		System.out.println("Recove errror: "+sip.printState());
 		SipWorld.sp.setTcp(incoming);
-		
+		//SipWorld.sp.allowInvite=true;
 		sip.processNextEvent(Sip.SipEvent.RECEIVE);
 		
 		//Denna kod sker nar mottagen kod har slutforts
@@ -107,6 +107,7 @@ public class SipWorld extends Thread {
 				String newData = scan.nextLine();
 				sp.scanned=newData;
 				clientT.start();
+
 				break;
 			case 2: sip.processNextEvent(Sip.SipEvent.RECEIVE); break;
 			case 3: System.out.println(sip.printState()); System.out.println("Statecheck... Thread: "+Thread.currentThread().getId());break;
