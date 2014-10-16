@@ -1,4 +1,3 @@
-import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -10,10 +9,9 @@ import java.util.List;
 public class SipWorld_Server implements Runnable {
 	List<ClientHandler> activeThreads;
 	//private SIPHandler sipHandler = null;
-	public int serverPort = 5061;
+	public int serverPort = 5062;
 	private ServerSocket serverSocket = null;
 	private Socket peerSocket;
-	private DataOutputStream outToClient = null;
 	private Sip newState;
 
 	public SipWorld_Server(Sip stateHandler) {

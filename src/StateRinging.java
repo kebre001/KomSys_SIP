@@ -14,6 +14,14 @@ public class StateRinging extends SipState{
 	public StateRinging(Sip sip){
 		this.sip=sip;
 		sip.setState(this);
+		
+
+		if(!SipWorld.sip.printState().equalsIgnoreCase("ringing")){
+			SipWorld.sip.setState(this);
+			System.out.println("Forcing state ringing");
+		}
+		
+		
 		//System.out.println(stream);
 		//System.out.println("Ringing... Thread: "+Thread.currentThread().getId());
 		stream = SipWorld.sp.getAudioStreamUDP();
@@ -31,15 +39,19 @@ public class StateRinging extends SipState{
 		}
 		
 		
-		
-		//System.out.println("Sending OK to other peer ");
-		
+		try{
 		out.println("OK "+ SipWorld.sp.getUdpPort());//This udp port is not suppose to be 0
 		out.flush();
+		}catch(NullPointerException e){
+			System.out.println("No one is calling, sorri");
+			System.out.println("Returning to IDLE");
+			this.sip.processNextEvent(Sip.SipEvent.ERROR);
+		}
 		
 		SipWorld.sp.setAudioStreamUDP(stream);
 		
 		// ###### TA EMOT ACK ######
+		
 		String received = null;
 		try {
 			received = in.readLine().trim();
@@ -47,6 +59,7 @@ public class StateRinging extends SipState{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		
 		// ####### SLUT ACK ########
 		if(received.startsWith("ACK")){
 			//System.out.println("Received ACK");

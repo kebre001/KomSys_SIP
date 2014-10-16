@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 
 public class StateWaiting extends SipState {
@@ -16,6 +15,11 @@ public class StateWaiting extends SipState {
 		this.sip = sip;
 		
 		sip.setState(this);
+		
+		if(!SipWorld.sip.printState().equalsIgnoreCase("waiting")){
+			SipWorld.sip.setState(this);
+			System.out.println("Forcing state waiting 1");
+		}
 
 		//System.out.println("Waiting... Thread: "+Thread.currentThread().getId());
 		while (ok == false && ack == false) {
@@ -73,6 +77,9 @@ public class StateWaiting extends SipState {
 					ok = true;
 					ack = true;
 					break;
+				}else if(received.startsWith("BUSY")){
+					System.out.println("Recived BUSY, exiting");
+					this.sip.processNextEvent(Sip.SipEvent.ERROR);
 				}
 			} catch (IOException e) {
 				sip.processNextEvent(Sip.SipEvent.ERROR);

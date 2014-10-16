@@ -17,7 +17,7 @@ public class StateIdle extends SipState{
 		//System.out.println("[IDLE] Rad 16");
 		
 		if(SipWorld.sp.goIdle){
-			System.out.println("go if");
+			//System.out.println("go if");
 			this.sip=null;
 			this.sip= sip;
 			//Sip sip2 = new Sip();
@@ -29,7 +29,7 @@ public class StateIdle extends SipState{
 		}else{
 			this.sip=null;
 			this.sip= sip;
-			System.out.println("did not go if");
+		//	System.out.println("did not go if");
 			
 		}
 
@@ -60,15 +60,26 @@ public class StateIdle extends SipState{
 		String newData = SipWorld.sp.scanned;
 		//newData = scan.nextLine();
 		
+		//IF BUSY
+		
+		
+		
+		
 		
 		String[] newDataArray = newData.split(" ");
 		System.out.println("Start calling..");
 		try {
 			peerSocket = new Socket(newDataArray[0], Integer.parseInt(newDataArray[1]));
 			System.out.println("Waiting for answer");
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		}catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("MISSING ARGUMENTS");
+			System.out.println("Usage: <host> <port> e.x localhost 3490");
+			System.out.println("System will exit");
+			System.exit(0);
+		}catch (IOException e1) {
+			System.out.println("Invalid hostname or port");
+			System.exit(0);
+			//e1.printStackTrace();
 		}
 		
 		try {

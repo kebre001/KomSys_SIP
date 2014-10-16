@@ -12,9 +12,10 @@ public class StateConnected extends SipState{
 	public BufferedReader in;
 	public PrintWriter out;
 	AudioStreamUDP audio;
+	public boolean bye=false;
 	
 	public StateConnected(Sip sip){
-		boolean bye = false;
+		bye = false;
 		this.sip=sip;
 		sip.setState(this);
 		this.sip=sip;
@@ -23,13 +24,31 @@ public class StateConnected extends SipState{
 		audio = SipWorld.sp.getAudioStreamUDP();
 		
 		Socket tcp = SipWorld.sp.getTcp();
-		
+		in=null;
+		out=null;
 		try {
 			in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
 			out = new PrintWriter(new OutputStreamWriter(tcp.getOutputStream()));
 		}catch (Exception e){
 			System.out.println("Error1: " + e);
 		}
+		System.out.println("[Debug] 1 tcp adress: "+tcp.getInetAddress());
+		/*
+		try {
+			System.out.println("[Debug] 2 tcp inStream: "+tcp.getInputStream().toString());
+			System.out.println("[Debug] 3 tcp outStream: "+tcp.getOutputStream().toString());
+		} catch (IOException e3) {
+			// TODO Auto-generated catch block
+			e3.printStackTrace();
+		}
+		*/
+		
+		System.out.println("[Debug] 2 tcp : "+tcp.getPort());
+		System.out.println("[Debug] 3 tcp : "+tcp.getLocalPort());
+		
+		
+		
+		
 		//System.out.println("TCP Connection: "+tcp.getInetAddress()+ " Port: "+ tcp.getPort());
 		// ######### STARTA CONNECTION
 		
@@ -49,36 +68,46 @@ public class StateConnected extends SipState{
 		// KEEP ALIVE
 		
 		try {
-			tcp.setSoTimeout(1000);
+			tcp.setSoTimeout(2000);
 		} catch (SocketException e1) {
 			System.out.println("Connection is dead, bye");
 			e1.printStackTrace();
 			bye=true;
 		}
-		
+		int i=0;
 		while(!bye){
-			
-			out.println("alive");
-			out.flush();
-			
 			try {
+				i++;
+				out.println("alive"+i);
+				out.flush();
+				
+				cmd = null;
 				cmd = in.readLine();
+				System.out.println(cmd);
 			} catch (IOException e) {
+	
 				System.out.println("Line could not be read, exiting");
-				System.out.println("Connection is dead");
+				System.out.println("CMD contains: "+cmd);
+				System.out.println("Connection is dead 1");
+				
+				//###
+				
+				
+				
 				bye=true;
+				
 			}
 			if(!SipWorld.sip.printState().equalsIgnoreCase("connected")){
-				bye = true;
-				System.out.println("Connection is dead");
+				SipWorld.sip.setState(this);
+				System.out.println("Connection is dead 2");
 			} 
 			if(cmd == null){
 				bye = true;
-				System.out.println("Connection is dead");
+				System.out.println("Connection is dead 3");
 			} 
 			else{//System.out.println("Connection is alive");
 				try {
-					Thread.sleep(200);
+					Thread.sleep(700);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -89,6 +118,16 @@ public class StateConnected extends SipState{
 	}
 	
 	public SipState bye(){
+		this.bye=false;
+		try {
+			
+			in.close();
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return new StateDisconnected(sip);
 	}
 	

@@ -11,6 +11,14 @@ public class StateTrying extends SipState{
 		this.sip=sip;
 		//Scanner scan = new Scanner(System.in);
 		this.sip.setState(this);
+		
+		
+
+		if(!SipWorld.sip.printState().equalsIgnoreCase("trying")){
+			SipWorld.sip.setState(this);
+			System.out.println("Forcing state trying");
+		}
+		
 		//String reply;
 		//String host = null;
 		try {
@@ -39,11 +47,32 @@ public class StateTrying extends SipState{
 			//SipWorld.sp.setUdpPort(12346);
 			
 			//sip.setState(Sip.SipEvent.TRYRING);
-			this.sip.processNextEvent(Sip.SipEvent.TRYRING);
+	//this.sip.processNextEvent(Sip.SipEvent.TRYRING);
+			
+			while(true){
+				if(SipWorld.sp.answer){
+					this.sip.processNextEvent(Sip.SipEvent.TRYRING);
+					break;
+				}
+				if(!SipWorld.sip.printState().equalsIgnoreCase("trying")){
+					System.out.println("Im not in trying!");
+					System.out.println("Setting myself to trying");
+					SipWorld.sip.setState(this);
+				}
+				try {
+					Thread.sleep(1500);
+					System.out.println("Ring ring! Ring ring!");
+					System.out.println("Thread ID: "+Thread.currentThread().getId());
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			//this.sip.processNextEvent(Sip.SipEvent.TRYSUCCESS);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println("No one is calling you BYE");
 			e.printStackTrace();
 		}
 		finally {

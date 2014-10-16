@@ -12,6 +12,7 @@ public class SipData {
 	
 	private int portUdp;
 	private AudioStreamUDP asu;
+	public boolean answer=false;
 	
 	public SipData(InetAddress inetAddress, int port){
 		this.ip=inetAddress; this.port=port;
@@ -43,15 +44,28 @@ public class SipData {
 		this.portUdp = port;
 	}
 	public int getUdpPort(){
-		System.out.println("From Data, getUdpPort: "+this.portUdp);
+		//System.out.println("From Data, getUdpPort: "+this.portUdp);
 		return portUdp;
 	}
 	public void setAudioStreamUDP(AudioStreamUDP asu){
-		System.out.println("From Data, setAudioStreamUDP: "+asu);
+		//System.out.println("From Data, setAudioStreamUDP: "+asu);
 		this.asu = asu;
 	}
 	public AudioStreamUDP getAudioStreamUDP(){
-		System.out.println("From Data, getAudioStreamUDP: "+this.asu);
+		//System.out.println("From Data, getAudioStreamUDP: "+this.asu);
 		return this.asu;
+	}
+	public void nullEverything(){
+		  ip =null;
+		  port=-1;
+		 incoming=null;
+		 //goIdle=false;
+		 //idle=false;
+		// scanned=false;
+		
+		 portUdp=-1;
+		 asu=null;
+		answer=false;
+		
 	}
 }

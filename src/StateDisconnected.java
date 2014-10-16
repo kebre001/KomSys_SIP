@@ -10,10 +10,14 @@ public class StateDisconnected extends SipState{
 		SipWorld.sp.goIdle = true;
 		
 		System.out.println("Dissconnecting");
+		
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}
+	@SuppressWarnings("deprecation")
 	public SipState idle(){
 		System.out.println("Running idle");
+		SipWorld.sp.answer=false;
+		
 		return new StateIdle(new Sip(), false);
 	}
 	
