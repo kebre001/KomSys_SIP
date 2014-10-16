@@ -5,10 +5,8 @@ public class Sip {
 	
     public Sip()
     {
-    	//System.out.println("[SIP] Rad 8");
     	currentState = new StateIdle(this, false);
     	SipWorld.sp.idle=currentState;
-    	//System.out.println("[SIP] Rad 10");
     }
 
     public void processNextEvent (SipEvent event)
@@ -26,7 +24,6 @@ public class Sip {
 	    case TRYSUCCESS: currentState = currentState.trySuccess(); break;
 	    case TRYRING: currentState = currentState.tryRing(); break;
 	    case FIDLE: currentState = currentState.fIdle(); break;
-	  //  case INIT: currentState = currentState.init(); break;
 	    }
     }
 

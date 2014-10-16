@@ -10,22 +10,11 @@ public class runClient implements Runnable{
 	}
 	
 	public void run(){
-		//clear();
-		System.out.println("'run'");
-		
 		sip.processNextEvent(Sip.SipEvent.INVITE);
-		
-		//This is the point we return from a connection
-		
 		sip.setState(SipWorld.sp.idle);
-		
 	}
 	
 	public void clear(){
-		this.sip=null;
-		//empty all other flags that might cause auto-trying
-		
-		
-	}
-	
+		this.sip=null;	
+	}	
 }

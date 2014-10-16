@@ -44,25 +44,18 @@ public class SipData {
 		this.portUdp = port;
 	}
 	public int getUdpPort(){
-		//System.out.println("From Data, getUdpPort: "+this.portUdp);
 		return portUdp;
 	}
 	public void setAudioStreamUDP(AudioStreamUDP asu){
-		//System.out.println("From Data, setAudioStreamUDP: "+asu);
 		this.asu = asu;
 	}
 	public AudioStreamUDP getAudioStreamUDP(){
-		//System.out.println("From Data, getAudioStreamUDP: "+this.asu);
 		return this.asu;
 	}
 	public void nullEverything(){
 		  ip =null;
 		  port=-1;
 		 incoming=null;
-		 //goIdle=false;
-		 //idle=false;
-		// scanned=false;
-		
 		 portUdp=-1;
 		 asu=null;
 		answer=false;

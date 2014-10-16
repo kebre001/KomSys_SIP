@@ -12,7 +12,6 @@ import java.util.List;
 
 public class SipWorld_Server implements Runnable {
 	List<ClientHandler> activeThreads;
-	//private SIPHandler sipHandler = null;
 	public int serverPort = 5062;
 	private ServerSocket serverSocket = null;
 	private Socket peerSocket;
@@ -25,22 +24,13 @@ public class SipWorld_Server implements Runnable {
 		this.newState=stateHandler;
 	}
 
-	
 	@Override
 	public void run() {
-		// Setup TCP listener
-
 		activeThreads = Collections.synchronizedList(new ArrayList<ClientHandler>());
-
-		
-		
 		try {
 			serverSocket = new ServerSocket(serverPort);
-			
-			System.out.println("[SERVER]Waiting for connection on: " + serverSocket.getLocalPort());
-			
+			//System.out.println("[SERVER]Waiting for connection on: " + serverSocket.getLocalPort());
 			for (;;) {
-				//System.out.println("--");
 				peerSocket = serverSocket.accept();
 				try {
 					in = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
@@ -48,26 +38,18 @@ public class SipWorld_Server implements Runnable {
 				} catch (Exception e) {
 					System.out.println("Error1: " + e);
 				}
-				System.out.println("[SERVER]Connected from:"+ serverSocket.toString());
+				//System.out.println("[SERVER]Connected from:"+ serverSocket.toString());
 				if(!SipWorld.sip.printState().equalsIgnoreCase("idle")){
-					
-					System.out.println("Sending BUSY");
 					out.println("BUSY");
 					out.flush();
 				}else{
-					System.out.println("new ClientHandler!!");
 					ClientHandler newThread = new ClientHandler(peerSocket, activeThreads, newState);
 					clientHandler = new Thread(newThread);
-					System.out.println("Kommer ut ur clientHandler!!!");
-					// sp = new
-					// SipData(serversocket.getInetAddress(),serversocket.getPort());
 					clientHandler.start();
 				}
-				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 }

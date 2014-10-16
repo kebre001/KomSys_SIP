@@ -19,9 +19,6 @@ class ClientHandler implements Runnable {
 		this.incoming = incoming;
 		this.activeThreads = activeThreads;
 		this.sip=sip;
-		//SipData data = new SipData();
-		
-		
 	}
 
 	@Override
@@ -35,73 +32,36 @@ class ClientHandler implements Runnable {
 			System.out.println("Error1: " + e);
 		}
 		
-		//System.out.println("Sent OK");
-		//out.println("OK");
-		//out.flush();
+		SipWorld.sp.setIp(incoming.getInetAddress());
+		SipWorld.sp.setPort(incoming.getPort());
+		SipWorld.sp.setTcp(incoming);
 		
-		System.out.println("Incoming Inet Adress: "+ incoming.getInetAddress());
-		System.out.println("Incoming get Port: "+ incoming.getPort());
-		System.out.println("Checking busy status!");
-		/// if buysy abort and answer busy
-	
-			//System.out.println("Not sending BUSY");
-			SipWorld.sp.setIp(incoming.getInetAddress());
-			SipWorld.sp.setPort(incoming.getPort());
-			
-			System.out.println("Setting addresses: "+sip.printState());
-			SipWorld.sp.setTcp(incoming);
-			//SipWorld.sp.allowInvite=true;
-			sip.processNextEvent(Sip.SipEvent.RECEIVE);
-			//Denna kod sker nar mottagen kod har slutforts
-			sip.setState(new StateIdle(sip, false));		
-		
-		
+		sip.processNextEvent(Sip.SipEvent.RECEIVE);
+		sip.setState(new StateIdle(sip, false));		
 	}
-
-	
-	
 }
 
 public class SipWorld extends Thread {
 	public static SipData sp;
-	//static SipHandler SH;
 	static Sip sip;
 	static runClient client;
 	static Scanner scan;
 	public static Thread clientT;
 	
 	public static void main(String[] args) {
-		//System.out.println(" error koll 1 !!!!");
-		//SH = new SipHandler();
-		
 		sp = new SipData(null, 0);
 		sip = new Sip(); 
-		//int temp = -1;
-		//System.out.println(" error koll 1,2 !!!!");
-		
-		//System.out.println(" error koll 1,3 !!!!");
+
 		SipWorld_Server sws = new SipWorld_Server(sip);
 		Thread serverT = new Thread(sws);
-		//SH.sips.add(sip);
-		
-		/*	try {
-				if(serverT!=null)
-				serverT.join();
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
 		
 		serverT.start();
 		
 		// ############## KLIENT ###################
-
-
 		scan = new Scanner(System.in);
 		while(true){
 		int temp;
 		do{
-		//System.out.println(">>> " + sip.printState() + " <<<");
 		System.out.println("1. Send invite");
 		System.out.println("2. Answer");
 		System.out.println("3. State");
@@ -112,16 +72,12 @@ public class SipWorld extends Thread {
 		switch(temp){
 
 			case 1: 
-				//sp.nullEverything();
 				try {
-				
 				if(clientT!=null)
 				clientT.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 				client =null;
 				client = new runClient(sip);
 				clientT = new Thread(client);
@@ -139,19 +95,7 @@ public class SipWorld extends Thread {
 		}
 		}while(!(temp == 0));
 		scan.close();
-		
-
 		}
 		// ############## SLUT KLIENT ##############
-		
-		
-		//sip = new Sip(); <---- FLYTTAD 
-		
-		//System.out.println(" error koll 2 !!!!");
-		//System.out.println("innan error 1,2 "+sip.printState());
-		//StateIdle si = new StateIdle(sip);
-
 	}
 }
-
-

@@ -1,33 +1,27 @@
+public class StateDisconnected extends SipState {
+	Sip sip = null;
 
-public class StateDisconnected extends SipState{
-	Sip sip=null;
-	public StateDisconnected(Sip sip){
-		this.sip=sip;
+	public StateDisconnected(Sip sip) {
+		this.sip = sip;
 		sip.setState(this);
-		
-
-	//	SipWorld.sp.getAudioStreamUDP().close();
-		
 		SipWorld.sp.goIdle = true;
-		
-		System.out.println("Dissconnecting");
-		
-		if(!SipWorld.sip.printState().equalsIgnoreCase("disconnected")){
+
+		if (!SipWorld.sip.printState().equalsIgnoreCase("disconnected")) {
 			SipWorld.sip.setState(this);
 			System.out.println("Forcing state disconnected 9");
 		}
-		
+
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}
-	@SuppressWarnings("deprecation")
-	public SipState idle(){
+
+	public SipState idle() {
 		System.out.println("Running idle");
-		SipWorld.sp.answer=false;
-		
+		SipWorld.sp.answer = false;
+
 		return new StateIdle(new Sip(), false);
 	}
-	
-	public String printState(){
+
+	public String printState() {
 		return "Disconnected";
 	}
 }
