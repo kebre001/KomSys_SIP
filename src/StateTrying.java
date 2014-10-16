@@ -26,7 +26,13 @@ public class StateTrying extends SipState{
 			System.out.println(address + ", " + remotePort);
 			SipWorld.sp.setUdpPort(localPort);
 			
+			int ringing = 0; //<- NEW
 			while(true){
+				if(ringing >= 10){ //<- NEW
+					System.out.println("No answer, aborting");
+					sip.processNextEvent(Sip.SipEvent.ERROR);
+					return;
+				}
 				if(SipWorld.sp.answer){
 					this.sip.processNextEvent(Sip.SipEvent.TRYRING);
 					break;
@@ -37,9 +43,10 @@ public class StateTrying extends SipState{
 					SipWorld.sip.setState(this);
 				}
 				try {
-					Thread.sleep(1500);
+					Thread.sleep(1000);
 					System.out.println("Ring ring! Ring ring!");
-					System.out.println("Thread ID: "+Thread.currentThread().getId());
+					//System.out.println("Thread ID: "+Thread.currentThread().getId());
+					ringing++;
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

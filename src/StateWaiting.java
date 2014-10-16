@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 public class StateWaiting extends SipState {
 	Sip sip =null;
@@ -23,12 +25,19 @@ public class StateWaiting extends SipState {
 
 		while (ok == false && ack == false) {
 			try {
+				tcp.setSoTimeout(15000); //<- NEW
+			} catch (SocketException e) {
+				System.out.println("Not answering, going to idle");
+				sip.processNextEvent(Sip.SipEvent.ERROR);
+				return;
+			}
+			try {
 				in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
 				out = new PrintWriter(tcp.getOutputStream());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println(tcp.getInetAddress() + ":" + tcp.getPort());
+			//System.out.println(tcp.getInetAddress() + ":" + tcp.getPort());
 			try {
 				String received = in.readLine();
 				if(received.startsWith("OK")){
@@ -68,8 +77,9 @@ public class StateWaiting extends SipState {
 					return;
 				}
 			} catch (IOException e) {
+				System.out.println("Error connecting to client");
 				sip.processNextEvent(Sip.SipEvent.ERROR);
-				e.printStackTrace();
+				return;
 			}
 		}
 		sip.processNextEvent(Sip.SipEvent.ACK);

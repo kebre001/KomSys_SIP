@@ -3,6 +3,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -58,17 +59,24 @@ public class SipWorld extends Thread {
 		serverT.start();
 		
 		// ############## KLIENT ###################
+		runMenu();
+		// ############## SLUT KLIENT ##############
+	}
+	public static void runMenu(){
 		scan = new Scanner(System.in);
 		while(true){
-		int temp;
+		int temp = 0;
 		do{
 		System.out.println("1. Send invite");
 		System.out.println("2. Answer");
 		System.out.println("3. State");
 		System.out.println("4. Bye");
-
-		temp = scan.nextInt();
-
+		try{
+			temp = scan.nextInt();
+		}catch(InputMismatchException e){
+			System.out.println("Expection a number 0-9");
+			runMenu();
+		}
 		switch(temp){
 
 			case 1: 
@@ -96,6 +104,5 @@ public class SipWorld extends Thread {
 		}while(!(temp == 0));
 		scan.close();
 		}
-		// ############## SLUT KLIENT ##############
 	}
 }
