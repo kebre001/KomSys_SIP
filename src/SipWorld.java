@@ -36,6 +36,7 @@ class ClientHandler extends Thread {
 		
 		System.out.println("Incoming Inet Adress: "+ incoming.getInetAddress());
 		System.out.println("Incoming get Port: "+ incoming.getPort());
+		System.out.println("Checking busy status!");
 		/// if buysy abort and answer busy
 		if(!SipWorld.sip.printState().equalsIgnoreCase("idle")){
 			System.out.println("Sending BUSY");
@@ -44,6 +45,7 @@ class ClientHandler extends Thread {
 			System.out.println("Sending BUSY");
 			sip.processNextEvent(Sip.SipEvent.ERROR);
 		}else{
+			//System.out.println("Not sending BUSY");
 			SipWorld.sp.setIp(incoming.getInetAddress());
 			SipWorld.sp.setPort(incoming.getPort());
 			
@@ -81,13 +83,13 @@ public class SipWorld extends Thread {
 		Thread serverT = new Thread(sws);
 		//SH.sips.add(sip);
 		
-			try {
+		/*	try {
 				if(serverT!=null)
 				serverT.join();
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
+			}*/
 		
 		serverT.start();
 		

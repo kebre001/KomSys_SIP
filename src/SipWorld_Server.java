@@ -29,6 +29,7 @@ public class SipWorld_Server implements Runnable {
 			serverSocket = new ServerSocket(serverPort);
 			System.out.println("[SERVER]Waiting for connection on: " + serverSocket.getLocalPort());
 			for (;;) {
+				System.out.println("--");
 				peerSocket = serverSocket.accept();
 				System.out.println("[SERVER]Connected from:"+ serverSocket.toString());
 				ClientHandler newThread = new ClientHandler(peerSocket, activeThreads, newState);

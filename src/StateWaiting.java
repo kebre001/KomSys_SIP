@@ -77,7 +77,7 @@ public class StateWaiting extends SipState {
 					ok = true;
 					ack = true;
 					break;
-				}else if(received.startsWith("BUSY")){
+				}else{
 					System.out.println("Recived BUSY, exiting");
 					this.sip.processNextEvent(Sip.SipEvent.ERROR);
 				}

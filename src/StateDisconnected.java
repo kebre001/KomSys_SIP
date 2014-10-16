@@ -11,6 +11,11 @@ public class StateDisconnected extends SipState{
 		
 		System.out.println("Dissconnecting");
 		
+		if(!SipWorld.sip.printState().equalsIgnoreCase("disconnected")){
+			SipWorld.sip.setState(this);
+			System.out.println("Forcing state disconnected 9");
+		}
+		
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}
 	@SuppressWarnings("deprecation")
