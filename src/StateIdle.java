@@ -26,7 +26,7 @@ public class StateIdle extends SipState{
 	}
 	
 	
-	public SipState invite(){
+	public synchronized SipState invite(){
 		
 		Socket peerSocket = null; 
 		String newData = SipWorld.sp.scanned;		
@@ -43,19 +43,18 @@ public class StateIdle extends SipState{
 			System.exit(0);
 		}catch (IOException e1) {
 			System.out.println("Invalid hostname or port");
-			System.out.println("System will exit");
 			System.exit(0);
 		}
 		
 		try {
 			sd = new SipData(InetAddress.getByName(newDataArray[0]), Integer.parseInt(newDataArray[1]));
 		} catch (NumberFormatException | UnknownHostException e) {
-			System.out.println("Unable to create lokal database(SIPdata)");
+			e.printStackTrace();
 		}
 		return new StateWaiting(peerSocket, sip);
 	}
 	
-	public SipState receive(){
+	public synchronized SipState receive(){
 		return new StateTrying(sip);
 	}
 	

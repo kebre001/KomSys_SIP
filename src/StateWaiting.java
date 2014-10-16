@@ -26,8 +26,7 @@ public class StateWaiting extends SipState {
 				in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
 				out = new PrintWriter(tcp.getOutputStream());
 			} catch (IOException e) {
-				System.out.println("Unable to open streams");
-				sip.processNextEvent(Sip.SipEvent.ERROR);
+				e.printStackTrace();
 			}
 			System.out.println(tcp.getInetAddress() + ":" + tcp.getPort());
 			try {
@@ -69,7 +68,6 @@ public class StateWaiting extends SipState {
 					return;
 				}
 			} catch (IOException e) {
-				System.out.println("Error occured");
 				sip.processNextEvent(Sip.SipEvent.ERROR);
 				e.printStackTrace();
 			}
@@ -77,7 +75,7 @@ public class StateWaiting extends SipState {
 		sip.processNextEvent(Sip.SipEvent.ACK);
 	}
 
-	public SipState ack() {
+	public synchronized SipState ack() {
 		return new StateConnected(sip);
 	}
 

@@ -3,7 +3,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -30,8 +29,7 @@ class ClientHandler implements Runnable {
 				out = new PrintWriter(new OutputStreamWriter(incoming.getOutputStream()));
 			}
 		} catch (Exception e) {
-			System.out.println("Unable to start socket thread \n System will exit");
-			System.exit(0);
+			System.out.println("Error1: " + e);
 		}
 		
 		SipWorld.sp.setIp(incoming.getInetAddress());
@@ -60,61 +58,44 @@ public class SipWorld extends Thread {
 		serverT.start();
 		
 		// ############## KLIENT ###################
-		
-		
-		
-		runMenu();
-		
-		
-		// ############## SLUT KLIENT ##############
-	}
-	
-	
-	public static void runMenu(){
 		scan = new Scanner(System.in);
 		while(true){
-			int temp = 0;
-			do{
-			System.out.println("1. Send invite");
-			System.out.println("2. Answer");
-			System.out.println("3. State");
-			System.out.println("4. Bye");
-			
-			try{
-			temp = scan.nextInt();
-			}catch(InputMismatchException e){
-				System.out.println("Input error, expection 0-9");
-				runMenu();
+		int temp;
+		do{
+		System.out.println("1. Send invite");
+		System.out.println("2. Answer");
+		System.out.println("3. State");
+		System.out.println("4. Bye");
+
+		temp = scan.nextInt();
+
+		switch(temp){
+
+			case 1: 
+				try {
+				if(clientT!=null)
+				clientT.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
+				client =null;
+				client = new runClient(sip);
+				clientT = new Thread(client);
 
-			switch(temp){
+				System.out.println("Enter ip and Port:");
+				scan.nextLine();
+				String newData = scan.nextLine();
+				sp.scanned=newData;
+				clientT.start();
 
-				case 1: 
-					try {
-					if(clientT!=null)
-					clientT.join();
-					} catch (InterruptedException e) {
-						System.out.println("Unable to invite, try again");
-						break;
-					}
-					client =null;
-					client = new runClient(sip);
-					clientT = new Thread(client);
-
-					System.out.println("Enter ip and Port:");
-					scan.nextLine();
-					
-					String newData = scan.nextLine();
-					sp.scanned=newData;
-					clientT.start();
-
-					break;
-				case 2: if(sip.printState().equalsIgnoreCase("trying")){sp.answer=true;}else{ System.out.println("No one is calling, come back later"); break;} 
-				case 3: System.out.println(sip.printState()); System.out.println("Statecheck... Thread: "+Thread.currentThread().getId());break;
-				case 4: sip.processNextEvent(Sip.SipEvent.BYE);break;
-			}
-			}while(!(temp == 0));
-			scan.close();
-			}
+				break;
+			case 2: if(sip.printState().equalsIgnoreCase("trying")){sp.answer=true;}else{ System.out.println("No one is calling, come back later"); break;} 
+			case 3: System.out.println(sip.printState()); System.out.println("Statecheck... Thread: "+Thread.currentThread().getId());break;
+			case 4: sip.processNextEvent(Sip.SipEvent.BYE);break;
+		}
+		}while(!(temp == 0));
+		scan.close();
+		}
+		// ############## SLUT KLIENT ##############
 	}
 }

@@ -9,7 +9,7 @@ public class Sip {
     	SipWorld.sp.idle=currentState;
     }
 
-    public synchronized void processNextEvent (SipEvent event)
+    public void processNextEvent (SipEvent event)
     {
 	switch(event)
 	    {
@@ -27,7 +27,7 @@ public class Sip {
 	    }
     }
 
-    public String printState()
+    public synchronized String printState()
     {
     	 return currentState.printState();
     }

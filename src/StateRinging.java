@@ -31,15 +31,14 @@ public class StateRinging extends SipState{
 				out = new PrintWriter(new OutputStreamWriter(tcp.getOutputStream()));
 			}
 		} catch (Exception e) {
-			System.out.println("Unable to open streams");
-			sip.processNextEvent(Sip.SipEvent.ERROR);
+			System.out.println("Error1: " + e);
 		}
 		
 		try{
-			out.println("OK "+ SipWorld.sp.getUdpPort());
-			out.flush();
+		out.println("OK "+ SipWorld.sp.getUdpPort());
+		out.flush();
 		}catch(NullPointerException e){
-			System.out.println("No one is calling");
+			System.out.println("No one is calling, sorri");
 			System.out.println("Returning to IDLE");
 			this.sip.processNextEvent(Sip.SipEvent.ERROR);
 		}
@@ -53,8 +52,7 @@ public class StateRinging extends SipState{
 		try {
 			received = in.readLine().trim();
 		} catch (IOException e1) {
-			System.out.println("Did not receive any ACK");
-			sip.processNextEvent(Sip.SipEvent.ERROR);
+			e1.printStackTrace();
 		}
 		
 		// ####### SLUT ACK ########
@@ -66,7 +64,7 @@ public class StateRinging extends SipState{
 			System.out.println("No ack received");
 		}
 	}
-	public SipState ok(){
+	public synchronized SipState ok(){
 		return new StateConnected(sip);
 	}
 	public SipState error(){

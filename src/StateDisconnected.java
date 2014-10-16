@@ -14,7 +14,7 @@ public class StateDisconnected extends SipState {
 		this.sip.processNextEvent(Sip.SipEvent.IDLE);
 	}
 
-	public SipState idle() {
+	public synchronized SipState idle() {
 		System.out.println("Running idle");
 		SipWorld.sp.answer = false;
 

@@ -18,41 +18,41 @@ public class SipData {
 		this.ip=inetAddress; this.port=port;
 		
 	}
-	public synchronized void setIp(InetAddress newIp){
+	public void setIp(InetAddress newIp){
 		this.ip=newIp;
 	}
 
-	public synchronized InetAddress getIp(){
+	public InetAddress getIp(){
 		return this.ip;
 	}
 	
-	public synchronized void setPort(int newPort){
+	public void setPort(int newPort){
 		this.port=newPort;
 	}
 
-	public synchronized int getPort(){
+	public int getPort(){
 		return this.port;
 	}
 	
-	public synchronized void setTcp(Socket tcp){
+	public void setTcp(Socket tcp){
 		this.incoming = tcp;
 	}
-	public synchronized Socket getTcp(){
+	public Socket getTcp(){
 		return incoming;
 	}
-	public synchronized void setUdpPort(int port){
+	public void setUdpPort(int port){
 		this.portUdp = port;
 	}
-	public synchronized int getUdpPort(){
+	public int getUdpPort(){
 		return portUdp;
 	}
-	public synchronized void setAudioStreamUDP(AudioStreamUDP asu){
+	public void setAudioStreamUDP(AudioStreamUDP asu){
 		this.asu = asu;
 	}
-	public synchronized AudioStreamUDP getAudioStreamUDP(){
+	public AudioStreamUDP getAudioStreamUDP(){
 		return this.asu;
 	}
-	public synchronized void nullEverything(){
+	public void nullEverything(){
 		  ip =null;
 		  port=-1;
 		 incoming=null;

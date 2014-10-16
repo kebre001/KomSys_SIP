@@ -45,14 +45,14 @@ public class StateTrying extends SipState{
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("No one is calling you");
+			System.out.println("No one is calling you BYE");
 			e.printStackTrace();
 		}
 		finally {
 			if(stream != null) stream.close();
 		}
 	}
-	public SipState tryRing(){
+	public synchronized SipState tryRing(){
 		return new StateRinging(sip);
 	}
 	public SipState error(){
