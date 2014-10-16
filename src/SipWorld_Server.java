@@ -36,7 +36,9 @@ public class SipWorld_Server implements Runnable {
 					in = new BufferedReader(new InputStreamReader(peerSocket.getInputStream()));
 					out = new PrintWriter(new OutputStreamWriter(peerSocket.getOutputStream()));
 				} catch (Exception e) {
-					System.out.println("Error1: " + e);
+					System.out.println("Unable to get stream");
+					System.out.println("System will exit");
+					System.exit(0);
 				}
 				//System.out.println("[SERVER]Connected from:"+ serverSocket.toString());
 				if(!SipWorld.sip.printState().equalsIgnoreCase("idle")){
@@ -49,7 +51,9 @@ public class SipWorld_Server implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Unable to create listening port: " + serverPort);
+			System.out.println("System will exit");
+			System.exit(0);
 		}
 	}
 }

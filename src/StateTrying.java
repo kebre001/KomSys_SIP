@@ -45,7 +45,7 @@ public class StateTrying extends SipState{
 				}
 			}
 		} catch (IOException e) {
-			System.out.println("No one is calling you BYE");
+			System.out.println("No one is calling you");
 			e.printStackTrace();
 		}
 		finally {

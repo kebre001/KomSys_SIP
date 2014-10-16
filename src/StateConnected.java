@@ -30,7 +30,9 @@ public class StateConnected extends SipState{
 			in = new BufferedReader(new InputStreamReader(tcp.getInputStream()));
 			out = new PrintWriter(new OutputStreamWriter(tcp.getOutputStream()));
 		}catch (Exception e){
-			System.out.println("Error1: " + e);
+			System.out.println("Unable to start TCP stream");
+			System.out.println("System will exit");
+			System.exit(0);
 		}
 
 		// ######### STARTA CONNECTION
@@ -38,7 +40,9 @@ public class StateConnected extends SipState{
 		try {
 			audio.connectTo(SipWorld.sp.getIp(), SipWorld.sp.getUdpPort());
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			System.out.println("Unable to connect audiostream");
+			System.out.println("Disconnecting");
+			sip.processNextEvent(Sip.SipEvent.ERROR);
 		}
 		audio.startStreaming();
 		
@@ -49,7 +53,7 @@ public class StateConnected extends SipState{
 			tcp.setSoTimeout(2000);
 		} catch (SocketException e1) {
 			System.out.println("Connection is dead, bye");
-			e1.printStackTrace();
+			//e1.printStackTrace();
 			bye=true;
 		}
 		int i=0;
@@ -91,7 +95,9 @@ public class StateConnected extends SipState{
 			in.close();
 			out.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Unable to close connection");
+			System.out.println("System will exit to close all streams");
+			System.exit(0);
 		}
 		return new StateDisconnected(sip);
 	}

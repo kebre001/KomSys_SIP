@@ -4,7 +4,6 @@ public class runClient implements Runnable{
 	Sip sip=null;
 	Scanner scan = new Scanner(System.in);
 	public runClient(Sip sip){
-		System.out.println("'runClient constructor'");
 		this.sip=null;
 		this.sip=sip;
 	}
