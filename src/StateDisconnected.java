@@ -5,7 +5,8 @@ public class StateDisconnected extends SipState{
 		this.sip=sip;
 		sip.setState(this);
 		
-		SipWorld.sp.getAudioStreamUDP().close();
+
+	//	SipWorld.sp.getAudioStreamUDP().close();
 		
 		SipWorld.sp.goIdle = true;
 		

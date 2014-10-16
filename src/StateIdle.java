@@ -61,9 +61,7 @@ public class StateIdle extends SipState{
 		//newData = scan.nextLine();
 		
 		//IF BUSY
-		
-		
-		
+		//if 
 		
 		
 		String[] newDataArray = newData.split(" ");

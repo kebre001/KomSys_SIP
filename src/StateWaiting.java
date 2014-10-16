@@ -80,6 +80,7 @@ public class StateWaiting extends SipState {
 				}else{
 					System.out.println("Recived BUSY, exiting");
 					this.sip.processNextEvent(Sip.SipEvent.ERROR);
+					return;
 				}
 			} catch (IOException e) {
 				sip.processNextEvent(Sip.SipEvent.ERROR);

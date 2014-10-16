@@ -7,14 +7,6 @@ public class runClient implements Runnable{
 		System.out.println("'runClient constructor'");
 		this.sip=null;
 		this.sip=sip;
-		/*
-		boolean tmp=true;
-		if(tmp){
-			run();
-			tmp=false;
-		}
-		*/
-		
 	}
 	
 	public void run(){

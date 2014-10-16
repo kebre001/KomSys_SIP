@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-class ClientHandler extends Thread {
+class ClientHandler implements Runnable {
 	protected Socket incoming;
 	protected BufferedReader in;
 	protected PrintWriter out;
@@ -21,6 +21,11 @@ class ClientHandler extends Thread {
 		this.sip=sip;
 		//SipData data = new SipData();
 		
+		
+	}
+
+	@Override
+	public void run(){
 		try {
 			if (incoming != null) {
 				in = new BufferedReader(new InputStreamReader(incoming.getInputStream()));
@@ -38,13 +43,7 @@ class ClientHandler extends Thread {
 		System.out.println("Incoming get Port: "+ incoming.getPort());
 		System.out.println("Checking busy status!");
 		/// if buysy abort and answer busy
-		if(!SipWorld.sip.printState().equalsIgnoreCase("idle")){
-			System.out.println("Sending BUSY");
-			out.println("BUSY");
-			out.flush();
-			System.out.println("Sending BUSY");
-			sip.processNextEvent(Sip.SipEvent.ERROR);
-		}else{
+	
 			//System.out.println("Not sending BUSY");
 			SipWorld.sp.setIp(incoming.getInetAddress());
 			SipWorld.sp.setPort(incoming.getPort());
@@ -55,10 +54,12 @@ class ClientHandler extends Thread {
 			sip.processNextEvent(Sip.SipEvent.RECEIVE);
 			//Denna kod sker nar mottagen kod har slutforts
 			sip.setState(new StateIdle(sip, false));		
-		}
 		
 		
 	}
+
+	
+	
 }
 
 public class SipWorld extends Thread {
@@ -112,7 +113,7 @@ public class SipWorld extends Thread {
 
 			case 1: 
 				//sp.nullEverything();
-			try {
+				try {
 				
 				if(clientT!=null)
 				clientT.join();
@@ -120,6 +121,7 @@ public class SipWorld extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 				client =null;
 				client = new runClient(sip);
 				clientT = new Thread(client);

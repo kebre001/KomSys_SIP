@@ -83,7 +83,7 @@ public class StateConnected extends SipState{
 				
 				cmd = null;
 				cmd = in.readLine();
-				System.out.println(cmd);
+				//System.out.println(cmd);
 			} catch (IOException e) {
 	
 				System.out.println("Line could not be read, exiting");
