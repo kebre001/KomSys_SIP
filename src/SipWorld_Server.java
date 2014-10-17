@@ -12,7 +12,7 @@ import java.util.List;
 
 public class SipWorld_Server implements Runnable {
 	List<ClientHandler> activeThreads;
-	public int serverPort = 5062;
+	public int serverPort = 5061;
 	private ServerSocket serverSocket = null;
 	private Socket peerSocket;
 	private Sip sip;

@@ -18,9 +18,10 @@ public class StateWaiting extends SipState {
 		
 		sip.setState(this);
 		
+		//Debug
 		if(!SipWorld.sip.printState().equalsIgnoreCase("waiting")){
 			SipWorld.sip.setState(this);
-			System.out.println("Forcing state waiting 1");
+			//System.out.println("Forcing state waiting 1");
 		}
 
 		while (ok == false && ack == false) {

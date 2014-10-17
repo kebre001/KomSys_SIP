@@ -63,16 +63,16 @@ public class StateConnected extends SipState{
 				cmd = in.readLine();
 			} catch (IOException e) {
 				System.out.println("Line could not be read, exiting");
-				System.out.println("Connection is dead 1");
+				//System.out.println("Connection is dead 1");
 				bye=true;
 			}
 			if(!SipWorld.sip.printState().equalsIgnoreCase("connected")){
 				SipWorld.sip.setState(this);
-				System.out.println("Connection is dead 2");
+				//System.out.println("Connection is dead 2");
 			} 
 			if(cmd == null){
 				bye = true;
-				System.out.println("Connection is dead 3");
+				System.out.println("Connection is dead");
 			} 
 			else{
 				try {

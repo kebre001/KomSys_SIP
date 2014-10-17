@@ -78,24 +78,14 @@ public class SipWorld extends Thread {
 			runMenu();
 		}
 		switch(temp){
-
+// Check internally busy, if i am already in a call.i cannot call.
 			case 1: 
-				try {
-				if(clientT!=null)
-				clientT.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-				client =null;
-				client = new runClient(sip);
-				clientT = new Thread(client);
-
-				System.out.println("Enter ip and Port:");
-				scan.nextLine();
-				String newData = scan.nextLine();
-				sp.scanned=newData;
-				clientT.start();
-
+				
+				if(sip.printState().equalsIgnoreCase("idle")){
+					call();
+				}else{
+					System.out.println("You are alredy in a call");
+				}//runMenu();
 				break;
 			case 2: if(sip.printState().equalsIgnoreCase("trying")){sp.answer=true;}else{ System.out.println("No one is calling, come back later"); break;} 
 			case 3: System.out.println(sip.printState()); System.out.println("Statecheck... Thread: "+Thread.currentThread().getId());break;
@@ -105,4 +95,26 @@ public class SipWorld extends Thread {
 		scan.close();
 		}
 	}
+	
+	public static void call(){
+		
+
+		try {
+		if(clientT!=null)
+		clientT.join();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+		client =null;
+		client = new runClient(sip);
+		clientT = new Thread(client);
+
+		System.out.println("Enter ip and Port:");
+		scan.nextLine();
+		String newData = scan.nextLine();
+		sp.scanned=newData;
+		clientT.start();
+		
+	}
+	
 }
